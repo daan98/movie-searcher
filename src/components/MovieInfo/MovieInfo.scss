@@ -1,6 +1,8 @@
 .movies-container {
     display: flex;
     padding: 10px 20px;
+    flex-direction: column;
+    row-gap: 50px;
 
     .single-movie-container {
         display: flex;
@@ -25,7 +27,7 @@
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            row-gap: 30px;
 
             .description {
                 text-align: justify;
@@ -45,6 +47,90 @@
                 .btn:first-child {
                     margin: 30px;
                 }
+            }
+        }
+    }
+}
+
+@media (min-width: 1400px) {
+    .movies-container {
+        .single-movie-container {
+            .info-container {
+                .description {
+                    font-size: 18px;
+                }
+
+                .secondary-information {
+                    p {
+                        font-size: 16px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .movies-container {
+        .single-movie-container {
+            column-gap: 0;
+            flex-direction: column;
+            row-gap: 10px;
+    
+            .poster-container {
+                max-width: 100%;
+            }
+    
+            .info-container {
+                row-gap: 20px;
+                
+                h1 {
+                    font-size: 22px;
+                }
+    
+                .secondary-information {
+                    flex-wrap: wrap;
+                    align-content: center;
+                    row-gap: 5px;
+    
+                    p {
+                        display: flex;
+                        flex-direction: column;
+                        text-align: center;
+                    }
+                }
+    
+                .buttons-container {
+                    display: flex;
+                    flex-direction: column;
+                    row-gap: 10px;
+    
+                    .btn:first-child {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 750px) {
+    .movies-container {
+        .single-movie-container {
+            .info-container {
+                .secondary-information {
+                    flex-direction: column;
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 400px) {
+    .info-container {
+        .info-container {
+            .description {
+                text-align: left;
             }
         }
     }

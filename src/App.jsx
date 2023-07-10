@@ -28,7 +28,7 @@ const App = () => {
       <Header/>
       <Search/>
       <MovieInfo />
-      <img src={movies.results ? `https://image.tmdb.org/t/p/w500${movies.results[2].poster_path}` : null} alt="movie poster" />
+      {/* <img src={movies.results ? `https://image.tmdb.org/t/p/w500${movies.results[2].poster_path}` : null} alt="movie poster" /> */}
     </>
   );
 }
