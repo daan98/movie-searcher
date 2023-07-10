@@ -1,0 +1,21 @@
+.search-container {
+    display: flex;
+    justify-content: center;
+    padding: 10px 20px;
+    column-gap: 25px;
+
+    input {
+        background-color: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        padding: 10px;
+    }
+}
+
+@media (max-width: 767px) {
+    .search-container {
+        flex-direction: column;
+        column-gap: 0;
+        row-gap: 25px;
+    }
+}
