@@ -14,8 +14,23 @@ const getMovieData = async (searchTerm) => {
     )
       .then((response) => response.json())
       .then((data) => data);
-    console.log("getMovieData data: ", result);
-    return result;
+
+    let modifiedResult = [];
+
+    result.results.map((movie) => {
+      modifiedResult.push({
+        id: movie.id,
+        overview: movie.overview,
+        popularity: movie.popularity,
+        posterPath: movie.poster_path,
+        releaseDate: movie.release_date,
+        title: movie.title,
+        voteAverage: movie.vote_average,
+        voteCount: movie.vote_count,
+      });
+    });
+    console.log("getMovieData: ", modifiedResult);
+    return modifiedResult;
   } catch (error) {
     console.log(
       "There was an error while fetching data from getMovieData: ",
@@ -24,7 +39,7 @@ const getMovieData = async (searchTerm) => {
   }
 };
 
-const getVideo = async (movieId) => {
+const getVideos = async (movieId) => {
   try {
     const result = await fetch(
       `https://api.themoviedb.org/3/movie/${movieId}/videos`,
@@ -33,11 +48,45 @@ const getVideo = async (movieId) => {
       .then((response) => response.json())
       .then((data) => data);
 
-    console.log("getVideo data: ", result);
-    return result;
+    let modifiedResult = [];
+
+    await result.results.map((trailer) => {
+      console.log("trailer: ", trailer);
+      modifiedResult.push(trailer);
+    });
+    console.log("getVideo data: ", modifiedResult);
+    const url = getSingleVideo(modifiedResult);
+    console.log("getVideo url: ", url);
+    return url;
   } catch (error) {
     console.log("There was an error while fetching data from getVideo", error);
   }
 };
 
-export { getMovieData, getVideo };
+const getSingleVideo = (trailers) => {
+  let currentTrailer;
+
+  if (trailers.length > 0) {
+    currentTrailer = trailers.filter(
+      (movieTrailer) => movieTrailer.type == "Trailer"
+    );
+
+    if (currentTrailer.length === 0) {
+      currentTrailer = trailers.filter(
+        (movieTrailer) => movieTrailer.type == "Teaser"
+      );
+    }
+
+    if (currentTrailer.length === 0) {
+      currentTrailer = trailers;
+    }
+  }
+
+  console.log("currentTrailer: ", currentTrailer);
+  const url = currentTrailer
+    ? `https://www.youtube.com/watch?v=${currentTrailer[0].key}`
+    : null;
+  return url;
+};
+
+export { getMovieData, getVideos };

@@ -1,60 +1,65 @@
 import React from 'react';
+import posterNotFound from "../../img/not-found.png";
+import { getVideos } from "../../api";
 import CountUp from "react-countup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilm, faCircleInfo, faCalendarDays, faFire, faPersonBooth, faSquarePollVertical } from "@fortawesome/free-solid-svg-icons"
 
 import "./MovieInfo.scss";
 
-const MovieInfo = ({ title, description, posterPath, releaseDate, popularity, voteAverage, voteCount }) => {
+const MovieInfo = ({ movies, searchDone, searchTerm }) => {
+
+    // let trailer = [];
+
+    const getVideoAPI = async (id) => {
+      const result =await getVideos(id);
+      return result;
+    };
+
+    const onClickWatchTrailer = async (id) => {
+          const trailerResult = await getVideoAPI(id);
+          
+          trailerResult ? window.open(trailerResult, '_blank') : alert('Sorry, trailer not found');
+    };
+
+    console.log('MovieInfo movies: ', movies);
+    console.log('MovieInfo movies: ', searchDone);
+
   return (
     <div className='movies-container'>
-        <div className='single-movie-container'>
-            <div className='poster-container'>
-                <img src="https://image.tmdb.org/t/p/w500/j9TIzeMxNknVrBvgxzLqhIhxml4.jpg" alt="Captain marvel" />
-            </div>
-            
-            <div className='info-container'>
-                <h1>Pokémon the Movie: Volcanion and the Mechanical Marvel</h1>
+        {movies.length > 0 ? 
+          movies.map(movie => (
+            <div key={movie.id} className='single-movie-container'>
+                <div className='poster-container'>
+                    { movie.posterPath ? 
+                        <img src={`https://image.tmdb.org/t/p/w500/${movie.posterPath}`} alt="movie poster" />
+                        :
+                        <img src={posterNotFound} alt="movie poster" />
+                    }
+                </div>
                 
-                <p className='description'>Ash meets the Mythical Pokémon Volcanion when it crashes down from the sky, creating a cloud of dust—and a mysterious force binds the two of them together! Volcanion despises humans and tries to get away, but it's forced to drag Ash along as it continues its rescue mission. They arrive in a city of cogs and gears, where a corrupt official has stolen the ultimate invention: the Artificial Pokémon Magearna, created 500 years ago. He plans to use its mysterious power to take control of this mechanical kingdom! Can Ash and Volcanion work together to rescue Magearna? One of the greatest battles in Pokémon history is about to unfold!</p>
+                <div className='info-container'>
+                    <h1>{ movie.title }</h1>
+                    
+                    <p className='description'>{ movie.overview }</p>
 
-                <div className='secondary-information'>
-                    <p title="Release day"><FontAwesomeIcon icon={faCalendarDays} /> <span>2016-07-16</span></p>
-                    <p title="Popularity"><FontAwesomeIcon icon={faFire} /> <CountUp start={0} end={24.545} separator=',' /></p>
-                    <p title="Vote average"><FontAwesomeIcon icon={faSquarePollVertical} /> <CountUp start={0} end={6.761} separator=',' /></p>
-                    <p title="Vote count"><FontAwesomeIcon icon={faPersonBooth} /> <CountUp start={0} end={155} separator=',' /></p>
-                </div>
+                    <div className='secondary-information'>
+                        <p title="Release day"><FontAwesomeIcon icon={faCalendarDays} /> <span>{ movie.releaseDate }</span></p>
+                        <p title="Popularity"><FontAwesomeIcon icon={faFire} /> <CountUp start={0} end={ movie.popularity } separator=',' /></p>
+                        <p title="Vote average"><FontAwesomeIcon icon={faSquarePollVertical} /> <CountUp start={0} end={ movie.voteAverage } separator=',' /></p>
+                        <p title="Vote count"><FontAwesomeIcon icon={faPersonBooth} /> <CountUp start={0} end={ movie.voteCount } separator=',' /></p>
+                    </div>
 
-                <div className='buttons-container'>
-                    <button title="Whatch trailer" type="button" className='btn'><FontAwesomeIcon icon={faFilm} /></button>
-                    <button title="More details" type="button" className='btn'><FontAwesomeIcon icon={faCircleInfo} /></button>
-                </div>
-            </div>
-        </div>
-
-        <div className='single-movie-container'>
-            <div className='poster-container'>
-                <img src="https://image.tmdb.org/t/p/w500/j9TIzeMxNknVrBvgxzLqhIhxml4.jpg" alt="Captain marvel" />
-            </div>
-            
-            <div className='info-container'>
-                <h1>Pokémon the Movie: Volcanion and the Mechanical Marvel</h1>
-                
-                <p className='description'>Ash meets the Mythical Pokémon Volcanion when it crashes down from the sky, creating a cloud of dust—and a mysterious force binds the two of them together! Volcanion despises humans and tries to get away, but it's forced to drag Ash along as it continues its rescue mission. They arrive in a city of cogs and gears, where a corrupt official has stolen the ultimate invention: the Artificial Pokémon Magearna, created 500 years ago. He plans to use its mysterious power to take control of this mechanical kingdom! Can Ash and Volcanion work together to rescue Magearna? One of the greatest battles in Pokémon history is about to unfold!</p>
-
-                <div className='secondary-information'>
-                    <p title="Release day"><FontAwesomeIcon icon={faCalendarDays} /> <span>2016-07-16</span></p>
-                    <p title="Popularity"><FontAwesomeIcon icon={faFire} /> <CountUp start={0} end={24.545} separator=',' /></p>
-                    <p title="Vote average"><FontAwesomeIcon icon={faSquarePollVertical} /> <CountUp start={0} end={6.761} separator=',' /></p>
-                    <p title="Vote count"><FontAwesomeIcon icon={faPersonBooth} /> <CountUp start={0} end={155} separator=',' /></p>
-                </div>
-
-                <div className='buttons-container'>
-                    <button title="Whatch trailer" type="button" className='btn'><FontAwesomeIcon icon={faFilm} /></button>
-                    <button title="More details" type="button" className='btn'><FontAwesomeIcon icon={faCircleInfo} /></button>
+                    <div className='buttons-container'>
+                        <button title="Whatch trailer" type="button" className='btn' onClick={() => onClickWatchTrailer(movie.id)}><FontAwesomeIcon icon={faFilm} /></button>
+                        <a href={`https://www.themoviedb.org/movie/${movie.id}`} target='_blank' title="More details" className='btn'><FontAwesomeIcon icon={faCircleInfo} /></a>
+                    </div>
                 </div>
             </div>
-        </div>
+        ))
+        :
+        <h1 className='empty-title'>{!searchDone ? "Type a movie to begin..." : `Sorry,  we could not find movies for "${searchTerm}"`}</h1>
+        }
     </div>
   );
 };

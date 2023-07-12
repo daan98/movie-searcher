@@ -50,6 +50,10 @@
             }
         }
     }
+
+    .empty-title {
+        text-align: center;
+    }
 }
 
 @media (min-width: 1400px) {
@@ -110,6 +114,10 @@
                     }
                 }
             }
+        }
+
+        .empty-title {
+            font-size: 22px;
         }
     }
 }
