@@ -29,7 +29,7 @@ const getMovieData = async (searchTerm) => {
         voteCount: movie.vote_count,
       });
     });
-    console.log("getMovieData: ", modifiedResult);
+
     return modifiedResult;
   } catch (error) {
     console.log(
@@ -51,12 +51,11 @@ const getVideos = async (movieId) => {
     let modifiedResult = [];
 
     await result.results.map((trailer) => {
-      console.log("trailer: ", trailer);
       modifiedResult.push(trailer);
     });
-    console.log("getVideo data: ", modifiedResult);
+
     const url = getSingleVideo(modifiedResult);
-    console.log("getVideo url: ", url);
+
     return url;
   } catch (error) {
     console.log("There was an error while fetching data from getVideo", error);
@@ -82,7 +81,6 @@ const getSingleVideo = (trailers) => {
     }
   }
 
-  console.log("currentTrailer: ", currentTrailer);
   const url = currentTrailer
     ? `https://www.youtube.com/watch?v=${currentTrailer[0].key}`
     : null;

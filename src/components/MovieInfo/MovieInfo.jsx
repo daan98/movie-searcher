@@ -9,8 +9,6 @@ import "./MovieInfo.scss";
 
 const MovieInfo = ({ movies, searchDone, searchTerm }) => {
 
-    // let trailer = [];
-
     const getVideoAPI = async (id) => {
       const result =await getVideos(id);
       return result;
@@ -21,9 +19,6 @@ const MovieInfo = ({ movies, searchDone, searchTerm }) => {
           
           trailerResult ? window.open(trailerResult, '_blank') : alert('Sorry, trailer not found');
     };
-
-    console.log('MovieInfo movies: ', movies);
-    console.log('MovieInfo movies: ', searchDone);
 
   return (
     <div className='movies-container'>
