@@ -7,7 +7,7 @@ import { faFilm, faCircleInfo, faCalendarDays, faFire, faPersonBooth, faSquarePo
 
 import "./MovieInfo.scss";
 
-const MovieInfo = ({ movies, searchDone, searchTerm }) => {
+const MovieInfo = ({ movies, searchDone, searchTerm, isLoading }) => {
 
     const getVideoAPI = async (id) => {
       const result =await getVideos(id);
@@ -53,7 +53,7 @@ const MovieInfo = ({ movies, searchDone, searchTerm }) => {
             </div>
         ))
         :
-        <h1 className='empty-title'>{!searchDone ? "Type a movie to begin..." : `Sorry,  we could not find movies for "${searchTerm}"`}</h1>
+        <h1 className='empty-title'>{!searchDone ? "Type a movie to begin..." : isLoading ? "Loading..." :`Sorry,  we could not find movies for "${searchTerm}"`}</h1>
         }
     </div>
   );

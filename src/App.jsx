@@ -8,10 +8,13 @@ const App = () => {
   const [movies, setMovies]             = useState([]);
   const [searchTerm, setSearchTerm]     = useState('');
   const [isSearchDone, setIsSearchDone] = useState(false);
+  const [loading, setLoading]           = useState(false);
 
   useEffect(() => {
     const getMovieAPI = async () => {
+      setLoading(true);
       setMovies(await getMovieData(searchTerm));
+      setLoading(false);
     };
 
     getMovieAPI();
@@ -21,7 +24,7 @@ const App = () => {
     <>
       <Header/>
       <Search setTerm={setSearchTerm} setSearchDone={setIsSearchDone} />
-      <MovieInfo movies={movies} searchDone={isSearchDone} searchTerm={searchTerm} />
+      <MovieInfo movies={movies} searchDone={isSearchDone} searchTerm={searchTerm} isLoading={loading} />
     </>
   );
 }
